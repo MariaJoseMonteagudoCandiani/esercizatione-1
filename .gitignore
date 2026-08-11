@@ -1,0 +1,14 @@
+freefall
+.freefall-strict
+*.o
+*.dat
+!convergenza.dat
+*.csv
+*.png
+!convergenza.png
+convergenza-rigenerato.dat
+fit.log
+core
+core.*
+.vscode/
+compile_commands.json
