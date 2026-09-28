@@ -3,52 +3,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 201710L
-#error "Questo programma richiede C17 o una versione successiva."
-#endif
+#define G 9.81
+#define Y0 100.0
+#define V0 0.0
 
-static const double G = 9.81;
-static const double Y0 = 100.0;
-static const double V0 = 0.0;
-static const long MAX_STEPS = 10000000L;
-
-static int parse_positive_double(const char *text, double *value)
+/* TODO: implementate queste due funzioni prendendo ispirazione da eco.c
+ * (esercitazione 0). Scrivete il risultato in *value e restituite 1 se
+ * la conversione e' valida, 0 altrimenti. */
+int parse_double(char *text, double *value)
 {
-    char *end = NULL;
-    errno = 0;
-    const double parsed = strtod(text, &end);
-
-    if (errno != 0 || end == text || *end != '\0' || !isfinite(parsed) || parsed <= 0.0) {
-        return 0;
-    }
-
-    *value = parsed;
-    return 1;
+    return 0;
 }
 
-static int parse_positive_steps(const char *text, long *value)
+int parse_int(char *text, int *value)
 {
-    char *end = NULL;
-    errno = 0;
-    const long parsed = strtol(text, &end, 10);
-
-    if (errno != 0 || end == text || *end != '\0' || parsed <= 0L || parsed > MAX_STEPS) {
-        return 0;
-    }
-
-    *value = parsed;
-    return 1;
+    return 0;
 }
 
-static void print_state(long step, double dt, double y, double v)
+double exact_position(double t)
 {
-    const double t = (double)step * dt;
-    const double y_exact = Y0 + V0 * t - 0.5 * G * t * t;
-    const double v_exact = V0 - G * t;
-    const double error_y = fabs(y - y_exact);
+    return Y0 + V0 * t - 0.5 * G * t * t;
+}
 
-    printf("%.6f %.6f %.6f %.6f %.6f %.6f\n",
-           t, y, v, y_exact, v_exact, error_y);
+double exact_velocity(double t)
+{
+    return V0 - G * t;
+}
+
+/* Aggiorna posizione e velocita' tramite i puntatori, usando per entrambi
+ * i calcoli lo stato iniziale del passo. Restituisce 1 se il passo e' pronto. */
+int euler_step(double dt, double *y, double *v)
+{
+    /* TODO: sostituisci i segnaposto con il passo di Eulero esplicito,
+     * ritorna 1 per segnalare che il passo e' implementato. */
+    return 0;
 }
 
 int main(int argc, char *argv[])
@@ -59,37 +47,35 @@ int main(int argc, char *argv[])
     }
 
     double dt = 0.0;
-    long steps = 0L;
-    if (!parse_positive_double(argv[1], &dt) || !parse_positive_steps(argv[2], &steps)) {
-        fprintf(stderr, "Errore: DT deve essere positivo e N un intero tra 1 e %ld.\n",
-                MAX_STEPS);
+    int steps = 0;
+    if (!parse_double(argv[1], &dt) || !parse_int(argv[2], &steps)) {
+        fprintf(stderr, "Errore: DT deve essere un numero reale e N un intero.\n");
+        return 2;
+    }
+    if (dt <= 0.0 || steps <= 0) {
+        fprintf(stderr, "Errore: DT e N devono essere positivi.\n");
         return 2;
     }
 
     double y = Y0;
     double v = V0;
 
-    puts("# t y_euler v_euler y_exact v_exact error_y");
-    for (long step = 0L; step <= steps; ++step) {
-        print_state(step, dt, y, v);
-
-        if (step < steps) {
-            /* TODO: implementare qui un passo del metodo di Eulero esplicito.
-             * Calcolare entrambi i nuovi valori prima di modificare y e v. */
-            const double y_next = y;
-            const double v_next = v;
-
-            y = y_next;
-            v = v_next;
+    printf("# t y_euler v_euler y_exact v_exact error_y\n");
+    for (int step = 0; step < steps; ++step) {
+        if (!euler_step(dt, &y, &v)) {
+            fprintf(stderr, "Il passo numerico e' da completare in euler_step.\n");
+            return EXIT_FAILURE;
         }
+
+        /* TODO: implementa il calcolo del tempo */
+        double t = -1.;
+        double y_exact = exact_position(t);
+        double v_exact = exact_velocity(t);
+        double error_y = fabs(y - y_exact);
+
+        printf("%.6f %.6f %.6f %.6f %.6f %.6f\n",
+               t, y, v, y_exact, v_exact, error_y);
     }
-
-    const double t_final = (double)steps * dt;
-    const double y_exact_final = Y0 + V0 * t_final - 0.5 * G * t_final * t_final;
-    const double error_final = fabs(y - y_exact_final);
-
-    printf("FINAL t=%.6f y=%.6f v=%.6f error=%.6f\n",
-           t_final, y, v, error_final);
 
     return 0;
 }

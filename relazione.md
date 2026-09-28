@@ -1,54 +1,51 @@
-# Relazione breve — Esercitazione 1
+# Taccuino — Caduta libera
 
-Nome e cognome:
+Componenti del gruppo (nome, cognome e username GitHub di entrambi):
 
-Matricola:
+Contributo di ciascuno e come abbiamo controllato insieme il lavoro:
 
-Turno:
+## Preparazione: conversione degli argomenti
 
-## 1. Velocità e posizione
+Quali controlli abbiamo aggiunto alle funzioni viste nell'esercitazione 0:
 
-Perché, in questo problema, Eulero produce la velocità esatta ai tempi discreti
-ma non la posizione esatta?
+Input validi e non validi provati, risultati e codici di uscita:
 
-**Risposta:**
+## Step 1: prima della simulazione
 
-## 2. Aggiornamento simultaneo
+La mia previsione e il motivo:
 
-Perché è opportuno calcolare `y_next` e `v_next` prima di assegnarli a `y` e
-`v`? Quale metodo si otterrebbe usando subito la nuova velocità nella posizione?
+Un passo calcolato a mano:
 
-**Risposta:**
+## Step 1: la prova
 
-## 3. Convergenza
+Comando, risultato atteso e risultato osservato:
 
-Riporta l'errore finale per `DT = 0.2`, `0.1`, `0.05` e `0.025`, mantenendo
-`t_final = 1 s`. Che relazione osservi fra errore e passo temporale?
+Che cosa ho verificato? Che cosa resta incerto?
 
-| DT | N | errore finale |
-|---:|---:|---:|
-| 0.2 | 5 | |
-| 0.1 | 10 | |
-| 0.05 | 20 | |
-| 0.025 | 40 | |
+Commit discusso e osservazione ricevuta al checkpoint:
 
-**Commento:**
+## Step 2: progettare un confronto
 
-Stima l'ordine osservato usando due punti consecutivi:
+La domanda a cui risponde il confronto:
 
-\[
-p=\frac{\log(E_1/E_2)}{\log(\Delta t_1/\Delta t_2)}.
-\]
+Che cosa vario, che cosa mantengo costante e perché:
 
-**Ordine stimato:**
+Misura dell'errore scelta e unità:
 
-## 4. Grafico
+## Step 2: evidenze e interpretazione
 
-Inserisci qui il grafico consegnato:
+![Dati di convergenza](convergenza.png)
 
-![Convergenza del metodo di Eulero](convergenza.png)
+Comandi per ottenere i dati e procedura per riprodurre il grafico:
 
-Il grafico è compatibile con una convergenza del primo ordine? Motiva la
-risposta usando la pendenza del fit.
+Come abbiamo stimato l'esponente e come interpretiamo i dati:
 
-**Risposta:**
+Una prova aggiuntiva scelta da me (ipotesi, comando, dati o figura):
+
+Quale risultato mi avrebbe fatto cambiare idea?
+
+## Conclusione
+
+Che cosa posso sostenere e in quale intervallo di validità:
+
+Un limite, un risultato inatteso o una domanda ancora aperta:

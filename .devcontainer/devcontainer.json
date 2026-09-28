@@ -10,6 +10,6 @@
       ]
     }
   },
-  "postCreateCommand": "make clean && make",
+  "postCreateCommand": "make freefall.o",
   "remoteUser": "vscode"
 }
