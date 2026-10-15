@@ -35,16 +35,23 @@ Comando, risultato atteso e risultato osservato:
 - **Risultato osservato:** Il programma compila senza errori ed esegue esattamente i 10 passi richiesti. I valori stampati alla prima riga coincidono al millesimo con il calcolo a mano svolto nella previsione.
 
 Che cosa ho verificato? Che cosa resta incerto?
+Ho verificato che il parsing degli argomenti funziona correttamente scartando input non validi e che il passo di Eulero esplicito aggiorna la posizione in ritardo rispetto alla velocità, accumulando un errore sulla posizione che cresce nel tempo. Resta incerto come varia quantitativamente questo errore globale al variare della dimensione del passo temporale dt e come si comporta su simulazioni di durata più lunga.
 
 Commit discusso e osservazione ricevuta al checkpoint:
+Commit completato dopo l'implementazione e la verifica dello Step 1. L'osservazione principale è che la precisione di stampa a 6 cifre decimali (%.6f) potrebbe nascondere errori molto piccoli per dt molto piccoli; in tal caso si raccomanda l'uso della notazione scientifica (%.6e).
 
 ## Step 2: progettare un confronto
 
 La domanda a cui risponde il confronto:
+In che modo la scelta del passo temporale dt influenza l'errore finale sulla posizione al termine della simulazione?
 
 Che cosa vario, che cosa mantengo costante e perché:
+**Vario:** Il passo temporale dt (ad esempio confrontando dt = 0.1, dt = 0.05 e dt = 0.01).
+- **Mantengo costante:** Il tempo totale di simulazione T_totale = N * dt (ad esempio T_totale = 1.0 s, adeguando di conseguenza il numero di passi N = T_totale / dt) e le condizioni iniziali (y0 = 100.0 m, v0 = 0.0 m/s).
+- **Motivo:** È necessario mantenere costante il tempo totale per poter confrontare l'errore accumulato nello stesso istante fisico finale.
 
 Misura dell'errore scelta e unità:
+La misura dell'errore scelta è l'errore assoluto sulla posizione all'ultimo passo di simulazione (t = T_totale), espresso in metri (m), ricavato dalla sesta colonna (error_y) dell'ultima riga stampata.
 
 ## Step 2: evidenze e interpretazione
 
