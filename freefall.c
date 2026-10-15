@@ -12,12 +12,34 @@
  * la conversione e' valida, 0 altrimenti. */
 int parse_double(char *text, double *value)
 {
-    return 0;
+    if (text == NULL || value == NULL) return 0;
+    
+    char *endptr;
+    errno = 0;
+    double val = strtod(text, &endptr);
+
+    if (errno != 0 || endptr == text || *endptr != '\0') {
+        return 0;
+    }
+
+    *value = val;
+    return 1;
 }
 
 int parse_int(char *text, int *value)
 {
-    return 0;
+    if (text == NULL || value == NULL) return 0;
+
+    char *endptr;
+    errno = 0;
+    long val = strtol(text, &endptr, 10);
+
+    if (errno != 0 || endptr == text || *endptr != '\0') {
+        return 0;
+    }
+
+    *value = (int)val;
+    return 1;
 }
 
 double exact_position(double t)
@@ -34,9 +56,15 @@ double exact_velocity(double t)
  * i calcoli lo stato iniziale del passo. Restituisce 1 se il passo e' pronto. */
 int euler_step(double dt, double *y, double *v)
 {
-    /* TODO: sostituisci i segnaposto con il passo di Eulero esplicito,
-     * ritorna 1 per segnalare che il passo e' implementato. */
-    return 0;
+    if (y == NULL || v == NULL) return 0;
+
+    double y_old = *y;
+    double v_old = *v;
+
+    *y = y_old + v_old * dt;
+    *v = v_old - G * dt;
+
+    return 1;
 }
 
 int main(int argc, char *argv[])
@@ -68,7 +96,7 @@ int main(int argc, char *argv[])
         }
 
         /* TODO: implementa il calcolo del tempo */
-        double t = -1.;
+        double t = (step + 1) * dt;
         double y_exact = exact_position(t);
         double v_exact = exact_velocity(t);
         double error_y = fabs(y - y_exact);
