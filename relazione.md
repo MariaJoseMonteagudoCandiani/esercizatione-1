@@ -1,8 +1,10 @@
 # Taccuino — Caduta libera
 
 Componenti del gruppo (nome, cognome e username GitHub di entrambi):
+Maria Jose Monteagudo Candiani (@MariaJoseMonteagudoCandiani)
 
 Contributo di ciascuno e come abbiamo controllato insieme il lavoro:
+Maria Jose Monteagudo Candiani:** Sviluppo completo del codice in freefall.c (funzioni parse_double, parse_int, euler_step e gestione del tempo nel main), esecuzione dei test e stesura della relazione.
 
 ## Preparazione: conversione degli argomenti
 
@@ -14,11 +16,23 @@ Input validi e non validi provati, risultati e codici di uscita:
 
 La mia previsione e il motivo:
 
+All'inizio di un intervallo di tempo conosciamo la posizione e la velocità iniziali. Mi aspetto che al primo passo, partendo da fermo (velocità iniziale uguale a zero), la posizione calcolata con il metodo di Eulero esplicito non cambi e rimanga pari al valore iniziale y0. Il motivo è che la formula per la nuova posizione usa la velocità dell'inizio del passo, che essendo zero annulla lo spostamento. La posizione numerica quindi non coinciderà con quella esatta, che invece inizia subito a diminuire a causa dell'accelerazione di gravità. Per la velocità invece mi aspetto un risultato esatto, poiché l'accelerazione g è costante e la sua variazione lineare viene integrata senza errori dal metodo. Se usassi la velocità appena aggiornata per la posizione, passerei al metodo di Eulero-Cromer e la posizione cambierebbe già al primo passo.
+
 Un passo calcolato a mano:
+Con dati iniziali y0 = 100.0 m, v0 = 0.0 m/s, g = 9.81 m/s^2 e passo temporale dt = 0.1 s:
+- Tempo al primo passo: t = 0.1 s
+- Nuova posizione numerica: y1 = y0 + v0 * dt = 100.0 + 0.0 * 0.1 = 100.000000 m
+- Nuova velocità numerica: v1 = v0 - g * dt = 0.0 - 9.81 * 0.1 = -0.981000 m/s
+- Posizione esatta: y_exact = 100.0 + 0.0 * 0.1 - 0.5 * 9.81 * (0.1)^2 = 99.950950 m
+- Velocità esatta: v_exact = 0.0 - 9.81 * 0.1 = -0.981000 m/s
+- Errore sulla posizione: error_y = |100.0 - 99.950950| = 0.049050 m
 
 ## Step 1: la prova
 
 Comando, risultato atteso e risultato osservato:
+- **Comando eseguito:** `./freefall 0.1 10`
+- **Risultato atteso:** Una tabella di 10 righe con la prima riga a t = 0.1 s contenente y_euler = 100.000000, v_euler = -0.981000, y_exact = 99.950950, v_exact = -0.981000 ed error_y = 0.049050.
+- **Risultato osservato:** Il programma compila senza errori ed esegue esattamente i 10 passi richiesti. I valori stampati alla prima riga coincidono al millesimo con il calcolo a mano svolto nella previsione.
 
 Che cosa ho verificato? Che cosa resta incerto?
 
