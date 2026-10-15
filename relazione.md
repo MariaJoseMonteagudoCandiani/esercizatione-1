@@ -4,7 +4,7 @@ Componenti del gruppo (nome, cognome e username GitHub di entrambi):
 Maria Jose Monteagudo Candiani (@MariaJoseMonteagudoCandiani)
 
 Contributo di ciascuno e come abbiamo controllato insieme il lavoro:
-Maria Jose Monteagudo Candiani:** Sviluppo completo del codice in freefall.c (funzioni parse_double, parse_int, euler_step e gestione del tempo nel main), esecuzione dei test e stesura della relazione.
+Maria Jose Monteagudo Candiani: Sviluppo completo del codice in freefall.c (funzioni parse_double, parse_int, euler_step e gestione del tempo nel main), esecuzione dei test e stesura della relazione.
 
 ## Preparazione: conversione degli argomenti
 
@@ -46,9 +46,9 @@ La domanda a cui risponde il confronto:
 In che modo la scelta del passo temporale dt influenza l'errore finale sulla posizione al termine della simulazione?
 
 Che cosa vario, che cosa mantengo costante e perché:
-**Vario:** Il passo temporale dt (ad esempio confrontando dt = 0.1, dt = 0.05 e dt = 0.01).
-- **Mantengo costante:** Il tempo totale di simulazione T_totale = N * dt (ad esempio T_totale = 1.0 s, adeguando di conseguenza il numero di passi N = T_totale / dt) e le condizioni iniziali (y0 = 100.0 m, v0 = 0.0 m/s).
-- **Motivo:** È necessario mantenere costante il tempo totale per poter confrontare l'errore accumulato nello stesso istante fisico finale.
+Vario: Il passo temporale dt (ad esempio confrontando dt = 0.1, dt = 0.05 e dt = 0.01).
+- Mantengo costante:Il tempo totale di simulazione T_totale = N * dt (ad esempio T_totale = 1.0 s, adeguando di conseguenza il numero di passi N = T_totale / dt) e le condizioni iniziali (y0 = 100.0 m, v0 = 0.0 m/s).
+- Motivo: È necessario mantenere costante il tempo totale per poter confrontare l'errore accumulato nello stesso istante fisico finale.
 
 Misura dell'errore scelta e unità:
 La misura dell'errore scelta è l'errore assoluto sulla posizione all'ultimo passo di simulazione (t = T_totale), espresso in metri (m), ricavato dalla sesta colonna (error_y) dell'ultima riga stampata.
@@ -62,11 +62,18 @@ Comandi per ottenere i dati e procedura per riprodurre il grafico:
 Come abbiamo stimato l'esponente e come interpretiamo i dati:
 
 Una prova aggiuntiva scelta da me (ipotesi, comando, dati o figura):
+Ipotesi: Se il metodo è del primo ordine, riducendo il passo temporale di un fattore 100 (da dt = 0.1 s a dt = 0.001 s per T_totale = 1.0 s con N = 1000 passi), l'errore finale sulla posizione deve ridursi esattamente di un fattore 100.
+./freefall 0.001 1000 > traiettoria_dt0001.dat
 
 Quale risultato mi avrebbe fatto cambiare idea?
+Avrei cambiato idea se il grafico log-log avesse mostrato una pendenza diversa da 1 (ad esempio pendenza 2, tipica di metodi del secondo ordine come Verlet o Runge-Kutta) oppure se al diminuire di dt l'errore fosse rimasto costante o cresciuto a causa dell'accumulo prolungato di errori numerici.
 
 ## Conclusione
 
 Che cosa posso sostenere e in quale intervallo di validità:
+Posso sostenere che il metodo di Eulero esplicito per la caduta libera è un algoritmo stabile e del primo ordine rispetto al passo temporale dt. L'intervallo di validità di questa conclusione riguarda passi temporali ragionevoli (da dt = 0.2 s fino a dt = 0.001 s) e tempi di simulazione finiti in cui gli errori di arrotondamento della macchina in punto flotante rimangono trascurabili rispetto all'errore di troncamento del metodo.
 
 Un limite, un risultato inatteso o una domanda ancora aperta:
+Limite: Il metodo non conserva l'energia del sistema e la posizione soffre di un ritardo sistematico rispetto alla velocità (aggiornata con la velocità dell'inizio del passo).
+
+Domanda ancora aperta: Riducendo dt a valori estremamente piccoli (es. dt = 1e-15 s), a quale punto l'errore di arrotondamento in punto flotante (round-off error) inizierà a dominare sull'errore del metodo facendo peggiorare nuovamente il risultato finale?
